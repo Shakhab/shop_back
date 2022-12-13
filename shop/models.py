@@ -27,15 +27,15 @@ class Product(models.Model):
     image = models.ImageField(_('image'), blank=True, upload_to='images/')
 
     def convert_to_webp(self):
-        name = self.image.name.rsplit('.', 1)
-        if name[-1] in ['jpg', 'png'] \
+        file_name = self.image.name.rsplit('.', 1)
+        if file_name[-1] in ['jpg', 'png'] \
                 and not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'images', self.image.name)):
 
             if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'images')):
                 os.makedirs(os.path.join(settings.MEDIA_ROOT, 'images'))
 
             img = Image.open(self.image)
-            webp_file_name = f'{name[0]}.webp'
+            webp_file_name = f'{file_name[0]}.webp'
             image_path = os.path.join(settings.MEDIA_ROOT, 'images', webp_file_name)
             img.save(image_path, 'webp')
 
